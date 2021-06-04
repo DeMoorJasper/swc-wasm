@@ -1,0 +1,14 @@
+{
+  "name": "swc-wasm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "wasm-pack build --scope swc --release --no-typescript --target web --out-dir dist",
+    "gzip": "gzip pkg/wasm_bg.wasm -c > pkg/wasm_bg.wasm.gz",
+    "brotli": "brotli pkg/wasm_bg.wasm -c > pkg/wasm_bg.wasm.br"
+  },
+  "devDependencies": {
+    "wasm-pack": "^0.9.1"
+  }
+}

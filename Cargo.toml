@@ -1,0 +1,31 @@
+[package]
+authors = ["Jasper"]
+description = "wasm module for swc"
+edition = "2018"
+license = "Apache-2.0/MIT"
+name = "wasm"
+repository = "https://github.com/swc-project/swc.git"
+version = "1.2.55"
+
+[lib]
+crate-type = ["cdylib"]
+
+# See https://rustwasm.github.io/book/reference/code-size.html
+[profile.release]
+lto = true
+opt-level = 'z' # Using z reduces the bundle size with another 1.5Mb
+codegen-units = 1 # This should apparently bring down binary size even more, but does nothing as far as I've tried
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ['-Oz', '--dce']
+
+[dependencies]
+console_error_panic_hook = "0.1.6"
+once_cell = "1.3.1"
+path-clean = "0.1"
+serde-wasm-bindgen = "0.1.3"
+swc = "0.20.0"
+swc_common = "0.10.20"
+swc_ecmascript = "0.36.0"
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4.8"
