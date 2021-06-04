@@ -11,7 +11,10 @@
     "start": "parcel ./example/index.html"
   },
   "devDependencies": {
-    "wasm-pack": "^0.9.1",
-    "parcel": "2.0.0-nightly.701"
+    "parcel": "2.0.0-nightly.701",
+    "wasm-pack": "^0.9.1"
+  },
+  "dependencies": {
+    "@babel/standalone": "^7.14.4"
   }
 }
