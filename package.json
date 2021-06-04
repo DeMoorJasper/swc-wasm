@@ -4,11 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "wasm-pack build --scope swc --release --no-typescript --target web --out-dir dist",
+    "build:dev": "wasm-pack build --dev --no-typescript --target web --out-dir lib",
+    "build:release": "wasm-pack build --release --no-typescript --target web --out-dir lib",
     "gzip": "gzip pkg/wasm_bg.wasm -c > pkg/wasm_bg.wasm.gz",
-    "brotli": "brotli pkg/wasm_bg.wasm -c > pkg/wasm_bg.wasm.br"
+    "brotli": "brotli pkg/wasm_bg.wasm -c > pkg/wasm_bg.wasm.br",
+    "start": "parcel ./example/index.html"
   },
   "devDependencies": {
-    "wasm-pack": "^0.9.1"
+    "wasm-pack": "^0.9.1",
+    "parcel": "2.0.0-nightly.701"
   }
 }

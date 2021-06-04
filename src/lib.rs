@@ -1,5 +1,4 @@
 use once_cell::sync::Lazy;
-use serde_wasm_bindgen;
 use std::{
     fmt::{self, Display, Formatter},
     io::{self, Write},
@@ -15,15 +14,18 @@ use wasm_bindgen::prelude::*;
 #[wasm_bindgen(js_name = "transformSync")]
 pub fn transform_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     console_error_panic_hook::set_once();
+    let opts: Options = opts
+        .into_serde()
+        .map_err(|err| JsValue::from(format!("failed to parse options: {}", err)))?;
 
-    let opts: Options = serde_wasm_bindgen::from_value(opts)?;
-
-    let (c, _errors) = compiler();
+    let (c, errors) = compiler();
 
     let fm = c.cm.new_source_file(FileName::Anon, s.into());
-    let out = c.process_js_file(fm, &opts).unwrap();
+    let out = c
+        .process_js_file(fm, &opts)
+        .map_err(|err| JsValue::from(format!("failed to process code: {}\n{}", err, errors)))?;
 
-    serde_wasm_bindgen::to_value(&out).map_err(|err| err.into())
+    Ok(JsValue::from_serde(&out).unwrap())
 }
 
 fn compiler() -> (Compiler, BufferedError) {
