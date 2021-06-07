@@ -1,9 +1,13 @@
 # SWC WASM Tests
 
-This repository has a bunch of tests for swc wasm, there's some interesting take-aways from this. The main one being that it's actually not a lot faster than Babel for larger files.
+This is a repo that I'm using to do some experiments with SWC in the browser and comparing it to Babel.
 
-So I think a large part of the Babel transformer is spent processing the config. TODO: Profile it...
+## Results
 
-We could look into profiling and improving swc performance or contribute a bunch of performance improvements to Babel (although babel is very slow in approving and merging PRs...). In Node swc is insanely fast, like 1000x faster than Babel on the large files but it's unfortunately not true for wasm.
+These are the results of running 3 tests: small, medium and large code snippets. Ran these tests 10 times each to allow javascript to do some optimizations. Changing the optimizations in `cargo.toml` have very little effect on performance, only real difference is speed.
 
-Run the build using `yarn build:release` and run the example/benchmark tests using `yarn start`
+| Description                   | SWC (wasm) | SWC (napi) | @babel/standalone |
+| ----------------------------- | :--------: | ---------: | ----------------: |
+| Small file                    |   0.60ms   |     0.90ms |           46.10ms |
+| react#development (medium)    |  141.90ms  |    19.50ms |          204.00ms |
+| react-dom#development (large) | 1179.70ms  |   242.70ms |         1243.70ms |

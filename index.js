@@ -1,5 +1,5 @@
-import * as Babel from "@babel/standalone";
-import initSWC, { transformSync } from "../lib/wasm";
+const fetch = require("node-fetch");
+const swc = require("@swc/core");
 
 const ITERATIONS = 10;
 
@@ -13,7 +13,7 @@ async function runSWC() {
   const startTime = Date.now();
   let result;
   for (let i = 0; i < ITERATIONS; i++) {
-    result = transformSync(code, {
+    result = swc.transformSync(code, {
       filename: "input.js",
       sourceMaps: true,
       isModule: true,
@@ -40,42 +40,19 @@ async function runSWC() {
   );
 }
 
-async function runBabel() {
-  const startTime = Date.now();
-  let result;
-  for (let i = 0; i < ITERATIONS; i++) {
-    result = Babel.transform(code, {
-      presets: [["env", {}]],
-      plugins: ["transform-react-jsx"],
-    });
-  }
-  console.log("code size:", result.code.length);
-  let duration = Date.now() - startTime;
-  console.log(
-    `Babel Took ${duration}ms in total, ${(duration / ITERATIONS).toFixed(
-      2
-    )}ms per iteration`
-  );
-}
-
 async function run() {
-  await initSWC();
-
   code = "export const App = () => <div>Test</div>;";
   await runSWC();
-  await runBabel();
 
   await fetchCode("https://unpkg.com/react@17.0.2/umd/react.development.js");
   await runSWC();
-  await runBabel();
 
   await fetchCode(
     "https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"
   );
   await runSWC();
-  await runBabel();
 
-  document.body.innerHTML = "<div>Transpilation benchmark finished!</div>";
+  process.exit(0);
 }
 
 run().catch(console.error);
