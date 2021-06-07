@@ -13,13 +13,14 @@ crate-type = ["cdylib"]
 # See https://rustwasm.github.io/book/reference/code-size.html
 [profile.release]
 lto = true
-# opt-level = 3
-opt-level = 's' # Using s cares a bit about performance still
+opt-level = 3
+# opt-level = 's' # Using s cares a bit about performance still
 # opt-level = 'z' # Using z reduces the bundle size with another 1.5Mb
 # codegen-units = 1 # This should apparently bring down binary size even more, but does nothing as far as I've tried
 
 [package.metadata.wasm-pack.profile.release]
-wasm-opt = ['-Oz', '--dce']
+# Oz = very smol, Os = smol, O = speedy, O3 = very speedy
+wasm-opt = ['-O3', '--dce']
 
 [dependencies]
 console_error_panic_hook = "0.1.6"

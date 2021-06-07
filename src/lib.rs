@@ -39,7 +39,7 @@ fn compiler() -> (Compiler, BufferedError) {
 }
 
 /// Get global sourcemap
-fn codemap() -> Arc<SourceMap> {
+fn codemap() ->  <SourceMap> {
     static CM: Lazy<Arc<SourceMap>> =
         Lazy::new(|| Arc::new(SourceMap::new(FilePathMapping::empty())));
 

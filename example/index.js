@@ -1,7 +1,7 @@
 import * as Babel from "@babel/standalone";
 import initSWC, { transformSync } from "../lib/wasm";
 
-const ITERATIONS = 10;
+const ITERATIONS = 5;
 
 let code = "";
 async function fetchCode(url) {
@@ -10,20 +10,19 @@ async function fetchCode(url) {
 }
 
 async function runSWC() {
-  await initSWC();
   const startTime = Date.now();
   let result;
   for (let i = 0; i < ITERATIONS; i++) {
     result = transformSync(code, {
       filename: "input.js",
-      sourceMaps: false,
+      sourceMaps: true,
       isModule: true,
       jsc: {
         parser: {
           syntax: "ecmascript",
           jsx: true,
         },
-        transform: {},
+        // transform: {},
         target: "es5",
       },
       module: {
@@ -61,12 +60,7 @@ async function runBabel() {
 }
 
 async function run() {
-  await fetchCode();
-  console.log(code);
-
-  code = "export const App = () => <div>Test</div>;";
-  await runSWC();
-  await runBabel();
+  await initSWC();
 
   await fetchCode("https://unpkg.com/react@17.0.2/umd/react.development.js");
   await runSWC();
@@ -77,6 +71,12 @@ async function run() {
   );
   await runSWC();
   await runBabel();
+
+  code = "export const App = () => <div>Test</div>;";
+  await runSWC();
+  await runBabel();
+
+  document.body.innerHTML = "<div>Transpilation benchmark finished!</div>";
 }
 
 run().catch(console.error);
