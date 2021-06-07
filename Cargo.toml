@@ -22,6 +22,7 @@ opt-level = 3
 # Oz = very smol, Os = smol, O = speedy, O3 = very speedy
 wasm-opt = ['-O3', '--dce']
 
+# wee_alloc does not improve performance... it even makes it slower...
 [dependencies]
 console_error_panic_hook = "0.1.6"
 once_cell = "1.3.1"
