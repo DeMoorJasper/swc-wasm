@@ -4,7 +4,7 @@ This is a repo that I'm using to do some experiments with SWC in the browser and
 
 ## Results
 
-These are the results of running 3 tests: small, medium and large code snippets. Ran these tests 10 times each to allow javascript to do some optimizations. Changing the optimizations in `cargo.toml` have very little effect on performance, only real difference is speed.
+These are the results of running 3 tests: small, medium and large code snippets. Ran these tests 10 times each to allow javascript to do some optimizations. Changing the optimizations in `cargo.toml` have very little effect on performance, only real difference is speed. (also tried `wee_alloc` without any success)
 
 | Description                   | SWC (wasm) | SWC (napi) | @babel/standalone |
 | ----------------------------- | :--------: | ---------: | ----------------: |
