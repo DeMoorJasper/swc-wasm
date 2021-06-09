@@ -31,13 +31,10 @@ async function runSWC() {
       },
     });
   }
-  console.log("code size:", result.code.length);
   let duration = Date.now() - startTime;
-  console.log(
-    `SWC Took ${duration}ms in total, ${(duration / ITERATIONS).toFixed(
-      2
-    )}ms per iteration`
-  );
+  document.body.innerHTML += `<div>${`SWC Took ${duration}ms in total, ${(
+    duration / ITERATIONS
+  ).toFixed(2)}ms per iteration`} (code size: ${result.code.length})</div>`;
 }
 
 async function runBabel() {
@@ -49,13 +46,10 @@ async function runBabel() {
       plugins: ["transform-react-jsx"],
     });
   }
-  console.log("code size:", result.code.length);
   let duration = Date.now() - startTime;
-  console.log(
-    `Babel Took ${duration}ms in total, ${(duration / ITERATIONS).toFixed(
-      2
-    )}ms per iteration`
-  );
+  document.body.innerHTML += `<div>${`Babel Took ${duration}ms in total, ${(
+    duration / ITERATIONS
+  ).toFixed(2)}ms per iteration`} (code size: ${result.code.length})</div>`;
 }
 
 async function run() {
@@ -75,7 +69,7 @@ async function run() {
   await runSWC();
   await runBabel();
 
-  document.body.innerHTML = "<div>Transpilation benchmark finished!</div>";
+  document.body.innerHTML += "<div>Transpilation benchmark finished!</div>";
 }
 
 run().catch(console.error);
